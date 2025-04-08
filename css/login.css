@@ -2,7 +2,7 @@ html, body {
     padding: 0;
     margin: 0;
 }
-input[type="username"] {
+input[type="username"] {`
     background-color: #FFF;
     color: #F00;
     font-weight: 600;
