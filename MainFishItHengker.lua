@@ -2037,6 +2037,14 @@ SettingsTab:Button({
 })
 
 SettingsTab:Button({
+	Title = "FIX Bug Unequip ROD",
+	Callback = function()
+		--FIX THIS
+		game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_net@0.2.0"):WaitForChild("net"):WaitForChild("RE/UnequipToolFromHotbar"):FireServer()
+	end,
+})
+
+SettingsTab:Button({
 	Title = "HDR Shader",
 	Callback = function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/felix672018159/CobaDeployAplikasi/refs/heads/main/hdrModFishIt.lua"))()
