@@ -334,8 +334,9 @@ local function coinCollector()
             local columns = { counterColumns }
             replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
         end
+        NotifySuccess("BlockXHub","Coin Collected", 1)
     end
-    task.wait(0.1)
+    task.wait(1)
 end
 
 Player:Toggle({
@@ -343,8 +344,10 @@ Player:Toggle({
 	Callback = function(val)
         if val then
             monitorCollectorActive = true
+            NotifySuccess("BlockXHub","[Enabled[] Coin Collector", 2)
         else
             monitorCollectorActive = nil
+            NotifyInfo("BlockXHub","[Disabled] Coin Collector", 2)
         end
 	end,
 })
