@@ -1035,6 +1035,7 @@ local CodeIsland = AutoFarmTab:Dropdown({
     Values = nameList,
     Value = nameList[1],
     Callback = function(selectedName)
+		print(selectedName)
         local code = islandNamesToCode[selectedName]
         local islandName = islandCodes[code]
         if islandName and farmLocations[islandName] then
