@@ -338,10 +338,10 @@ function StartCoinCollector()
                 for counterColumns = 1,10 do
                     local columns = { counterColumns }
                     replicatedStorage:WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
-                    NotifySuccess("BlockXHub","Coin claimed ...", 1)
-                    task.wait(0.1)
+                    task.wait(0.05)
                 end
             end)
+			NotifySuccess("BlockXHub","Coin claimed ...", 1)
             task.wait(1)
         end
     end)
