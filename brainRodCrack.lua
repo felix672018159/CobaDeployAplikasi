@@ -334,7 +334,7 @@ local function coinCollector()
             for counterColumns = 1,10 do
                 local columns = { counterColumns }
                 replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
-                NotifySuccess("BlockXHub","Coin claimed ...", 1)
+				task.wait(0.1) --BUG FREEZING GAME
             end
         end
     end
