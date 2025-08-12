@@ -325,6 +325,31 @@ local Speed = Player:Slider({
 })
 
 myConfig:Register("PlayerSpeed", Speed)
+-------------------------------------------------------------------------------------------------------
+-- > Auto Collect Coin :
+local monitorCollectorActive = nil
+local function coinCollector()
+    if monitorCollectorActive ~= nil then
+        for counterColumns = 1,10 do
+            local columns = { counterColumns }
+            replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+        end
+    end
+    task.wait(0.1)
+end
+
+Player:Toggle({
+	Title = "Coin Collector",
+	Callback = function(val)
+        if val then
+            monitorCollectorActive = true
+        else
+            monitorCollectorActive = nil
+        end
+	end,
+})
+
+task.spawn(coinCollector)
 
 -------------------------------------------
 ----- =======[ SETTINGS TAB ] ok
