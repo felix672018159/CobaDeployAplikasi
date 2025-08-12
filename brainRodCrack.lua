@@ -334,8 +334,8 @@ local function coinCollector()
             for counterColumns = 1,10 do
                 local columns = { counterColumns }
                 --replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
-				task.wait(0.2) --BUG FREEZING GAME
-				NotifySuccess("BlockXHub","Water Park", 2)	
+				task.wait(10) --BUG FREEZING GAME
+				--NotifySuccess("BlockXHub","Water Park", 2)	
             end
         end
     end
