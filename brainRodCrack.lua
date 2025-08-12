@@ -327,35 +327,40 @@ local Speed = Player:Slider({
 myConfig:Register("PlayerSpeed", Speed)
 -------------------------------------------------------------------------------------------------------
 -- > Auto Collect Coin :
-local monitorCollectorActive = { status = nil }
-local function coinCollector()
-    while true do
-        if monitorCollectorActive.status ~= nil then
-            for counterColumns = 1,10 do
-                local columns = { counterColumns }
-                --replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
-				task.wait(10) --BUG FREEZING GAME
-				--NotifySuccess("BlockXHub","Water Park", 2)	
-            end
+local autoCoinCollector = false
+function StartCoinCollector()
+    autoCoinCollector = true
+    NotifySuccess("BlockXHub","[Enabled[] Coin Collector", 2)
+    task.spawn(function()
+        while autoCoinCollector do
+            pcall(function()
+                for counterColumns = 1,10 do
+                    local columns = { counterColumns }
+                    replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+                    NotifySuccess("BlockXHub","Coin claimed ...", 1)
+                    task.wait(1)
+                end
+            end)
+            task.wait(1)
         end
-    end
-    task.wait(1)
+    end)
+end
+
+function StopCoinCollector()
+    autoCoinCollector = false
+    NotifyInfo("BlockXHub","[Disabled] Coin Collector", 2)
 end
 
 Player:Toggle({
 	Title = "Coin Collector",
 	Callback = function(val)
         if val then
-            monitorCollectorActive.status = true
-            NotifySuccess("BlockXHub","[Enabled[] Coin Collector", 2)
+            StartCoinCollector()
         else
-            monitorCollectorActive.status = nil
-            NotifyInfo("BlockXHub","[Disabled] Coin Collector", 2)
+            StopCoinCollector()
         end
 	end,
 })
-
-task.spawn(coinCollector)
 
 -------------------------------------------
 ----- =======[ SETTINGS TAB ] ok
