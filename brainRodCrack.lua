@@ -327,14 +327,16 @@ local Speed = Player:Slider({
 myConfig:Register("PlayerSpeed", Speed)
 -------------------------------------------------------------------------------------------------------
 -- > Auto Collect Coin :
-local monitorCollectorActive = nil
+local monitorCollectorActive = { status = nil }
 local function coinCollector()
-    if monitorCollectorActive ~= nil then
-        for counterColumns = 1,10 do
-            local columns = { counterColumns }
-            replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+    while true do
+        if monitorCollectorActive.status ~= nil then
+            for counterColumns = 1,10 do
+                local columns = { counterColumns }
+                replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+                NotifySuccess("BlockXHub","Coin claimed ...", 1)
+            end
         end
-        NotifySuccess("BlockXHub","Coin Collected", 1)
     end
     task.wait(1)
 end
@@ -343,10 +345,10 @@ Player:Toggle({
 	Title = "Coin Collector",
 	Callback = function(val)
         if val then
-            monitorCollectorActive = true
+            monitorCollectorActive.status = true
             NotifySuccess("BlockXHub","[Enabled[] Coin Collector", 2)
         else
-            monitorCollectorActive = nil
+            monitorCollectorActive.status = nil
             NotifyInfo("BlockXHub","[Disabled] Coin Collector", 2)
         end
 	end,
