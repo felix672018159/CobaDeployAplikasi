@@ -12,6 +12,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Player = Players.LocalPlayer
+local replicatedStorage = game:GetService("ReplicatedStorage")
 
 LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
@@ -336,9 +337,9 @@ function StartCoinCollector()
             pcall(function()
                 for counterColumns = 1,10 do
                     local columns = { counterColumns }
-                    replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+                    replicatedStorage:WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
                     NotifySuccess("BlockXHub","Coin claimed ...", 1)
-                    task.wait(1)
+                    task.wait(0.1)
                 end
             end)
             task.wait(1)
