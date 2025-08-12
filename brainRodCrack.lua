@@ -333,8 +333,9 @@ local function coinCollector()
         if monitorCollectorActive.status ~= nil then
             for counterColumns = 1,10 do
                 local columns = { counterColumns }
-                replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
-				task.wait(0.1) --BUG FREEZING GAME
+                --replicatedStorage:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Net"):WaitForChild("RE/PlotService/ClaimCoins"):FireServer(unpack(columns))
+				task.wait(0.2) --BUG FREEZING GAME
+				NotifySuccess("BlockXHub","Water Park", 2)	
             end
         end
     end
