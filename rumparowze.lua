@@ -18,7 +18,7 @@ if isBootedYet then
     error("Well, STOP HERE !")
 end
 ---------------------- CHECK PLAYER
-local usernameLocked = "rumparowze|orazovomez|bagzadzze|zupezover"
+local usernameLocked = "rumparowze|orazovomez|bagzadzze|supezover"
 local playerMeow = game:GetService("Players")
 local usernameCheck = playerMeow.LocalPlayer.DisplayName
 local usernameA = string.upper(usernameLocked)
