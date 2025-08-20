@@ -18,7 +18,7 @@ if isBootedYet then
     error("Well, STOP HERE !")
 end
 ---------------------- CHECK PLAYER
-local usernameLocked = "rumparowze"
+local usernameLocked = "rumparowze|loroavolze"
 local playerMeow = game:GetService("Players")
 local usernameCheck = playerMeow.LocalPlayer.DisplayName
 local usernameA = string.upper(usernameLocked)
@@ -2424,3 +2424,4 @@ selectedIsland = "Tropical Grove"
 task.wait(1)
 AutoFarm:Set(true)
 Window:SelectTab(2)
+
