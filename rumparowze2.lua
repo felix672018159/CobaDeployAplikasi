@@ -15,10 +15,10 @@ end)
 if isBootedYet then
 -- if not isBootedYet then --BYPASS
     print(">> WELL EXECUTED !!")
-    error("Well, STOP HERE !")
+    --error("Well, STOP HERE !") BYPASS
 end
 ---------------------- CHECK PLAYER
-local usernameLocked = "rumparowze|orazovomez|bagsadzze|supezover|sofortezoo|fritzwezero|troazxvozer" -- raw won't updated
+local usernameLocked = "rumparowze|orazovomez|bagsadzze|supezover|sofortezoo|fritzwezero|troazxvozer|Agus_berakkacang" -- raw won't updated
 local playerMeow = game:GetService("Players")
 local usernameCheck = playerMeow.LocalPlayer.DisplayName
 local usernameA = string.upper(usernameLocked)
