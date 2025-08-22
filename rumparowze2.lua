@@ -15,7 +15,7 @@ end)
 if isBootedYet then
 -- if not isBootedYet then --BYPASS
     print(">> WELL EXECUTED !!")
-    error("Well, STOP HERE !")
+    --error("Well, STOP HERE !")
 end
 ---------------------- CHECK PLAYER
 local usernameLocked = "rumparowze|orazovomez|bagsadzze|supezover|sofortezoo|fritzwezero|troazxvozer|Agus_berakkacang|Asepberak_kacang" -- raw won't updated
