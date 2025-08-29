@@ -1116,7 +1116,7 @@ local function startAutoFarmLoop()
         NotifyInfo("Fish Threshold Reached", "Selling all fishes...")
         task.wait(1.5)
 
-        local npcSellLocation = CFrame.new(-32, 5, 2885)
+        local npcSellLocation = CFrame.new(51, 17, 2880) --OLD: CFrame.new(-32, 5, 2885)
         if npcSellLocation then
             hrp.CFrame = npcSellLocation
             task.wait(1.25)
