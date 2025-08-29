@@ -745,7 +745,7 @@ function sellAllFishes()
 	end
 
 	local originalPos = hrp.CFrame
-	local sellerPos = Vector3.new(-32, 5, 2885)
+	local sellerPos = Vector3.new(-32, 5, 2885) --OLD: Vector3.new(-32, 5, 2885)
 	local sellRemote = net:WaitForChild("RF/SellAllItems")
 
 	task.spawn(function()
