@@ -2406,9 +2406,9 @@ booted.Parent = game
 print("Games Booted !")
 ------
 DelayFish:Set("1")
-FishThres:Set("200")
+FishThres:Set("6200") --
 -- task.wait(1)
-obtainedLimit = 200
+obtainedLimit = 6200
 customDelay = 0.9
 --selectedIsland = "Crater Islands"
 selectedIsland = "Tropical Grove"
