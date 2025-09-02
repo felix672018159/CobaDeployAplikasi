@@ -659,13 +659,14 @@ REReplicateTextEffect.OnClientEvent:Connect(function(data)
         local myHead = Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("Head")
         if myHead and data.Container == myHead then
             task.spawn(function()
-                for i = 1, 10 do
+                for i = 1, 25 do
                     task.wait(0.2)
+					if isCaughtFishWhenStartedAutoFish then break end
                     finishRemote:FireServer()  
                     --rconsoleclear()      
                 end
             end)
-			isCaughtFishWhenStartedAutoFish = true
+			--isCaughtFishWhenStartedAutoFish = true
         end
     end
 end)
