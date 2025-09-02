@@ -250,7 +250,7 @@ local Home = Window:Tab({
 local AllMenu = Window:Section({
 	Title = "All Menu Here",
 	Icon = "tally-3",
-	Opened = false,
+	Opened = true,
 })
 
 local AutoFish = AllMenu:Tab({ 
@@ -1232,9 +1232,10 @@ local function startAutoFarmLoop()
         end  
 
         hrp.CFrame = location  
-        task.wait(1.5)  
+        task.wait(5.5)  
 
-        StartAutoFish()
+        --StartAutoFish()
+        StartAutoFishV2()
         
         while isAutoFarmRunning do
             if not isAutoFarmRunning then  
@@ -2503,3 +2504,20 @@ SettingsTab:Button({
         NotifySuccess("Config Loaded", "Config has beed loaded!")
     end
 })
+
+
+task.wait(2)
+--selectedIsland = "Crater Islands"
+selectedIsland = "Tropical Grove"
+--selectedIsland = "Vulcano"
+--selectedIsland = "Coral Reefs"
+--selectedIsland = "Winter Fest"
+--selectedIsland = "Weather Machine"
+--selectedIsland = "Treasure Room"
+--selectedIsland = "Deap Sea"
+
+-- Tropical Grove
+--AUTO SHADER
+task.wait(1)
+AutoFarm:Set(true)
+Window:SelectTab(3)
