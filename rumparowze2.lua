@@ -584,10 +584,19 @@ function StartAutoFishOldV2() --NEW FUNCTIONS V2...
 end
 
 local isCaughtFishWhenStartedAutoFish = false
-local isCaughtRarestFishWhenStartedAutoFish = false --CHECK IF GOT MITHIC FISH AND UPPER
+local trigerFinchFish = false
 local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_net@0.2.0"].net["RE/FishCaught"]
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
     isCaughtFishWhenStartedAutoFish = true
+	if trigerFinchFish then
+		task.wait(0.5)
+		print("==============FINCH FISH DETECTED==============")
+		print(idFish)
+		print(data)
+		print("===============================================")
+		NotifySuccess("FINCH FISH", "WOW YOU GOT FINCH FISH, CONGRATS BROH")
+		trigerFinchFish = false
+	end
 end)
 function printTable(tbl, indent)
 	indent = indent or ""
@@ -605,55 +614,55 @@ function StartAutoFish() --NEW FUNCTIONS V3...
     autofish = true
     task.spawn(function()
         while autofish do
-            pcall(function()
-                local args = {1}
-                local equipRemote = net:WaitForChild("RE/EquipToolFromHotbar")
-                equipRemote:FireServer(unpack(args))
-                task.wait(0.1)
+			--task.spawn(function()
+			local function RunFishing()
+				pcall(function()
+					local args = {1}
+					local equipRemote = net:WaitForChild("RE/EquipToolFromHotbar")
+					equipRemote:FireServer(unpack(args))
+					task.wait(0.1)
 
-                local timestamp = perfectCast and 9999999999 or (tick() + math.random())
-                --RodShake:Play()
-                rodRemote:InvokeServer(timestamp)
-                task.wait(0.1)
+					local timestamp = perfectCast and 9999999999 or (tick() + math.random())
+					--RodShake:Play()
+					rodRemote:InvokeServer(timestamp)
+					task.wait(0.1)
 
-                local x, y = -1.238, 0.969
-                if not perfectCast then
-                    x = math.random(-1000, 1000) / 1000
-                    y = math.random(0, 1000) / 1000
-                end
-                local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
+					local x, y = -1.238, 0.969
+					if not perfectCast then
+						x = math.random(-1000, 1000) / 1000
+						y = math.random(0, 1000) / 1000
+					end
+					local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
 
---		print(type(mGRresult1))
---		print(mGRresult1)
---		print(type(mGRresult2))
---		print(mGRresult2)
---		print(getrawmetatable(mGRresult2))
-                if mGRresult2.SelectedRarity <= 0.0001 then --RARITY MITHIC FISH DETECTIONS 
-                    print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
-                    isCaughtRarestFishWhenStartedAutoFish = true
-                    --printTable(mGRresult2)
-                end
+	--		print(type(mGRresult1))
+	--		print(mGRresult1)
+	--		print(type(mGRresult2))
+	--		print(mGRresult2)
+	--		print(getrawmetatable(mGRresult2))
+					if mGRresult2.SelectedRarity <= 0.0001 then --RARITY MITHIC FISH DETECTIONS 
+						print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
+						--printTable(mGRresult2)
+						if mGRresult2.SelectedRarity <= 0.00003 then --RARITY FINCH FISH DETECTIONS 
+							triggerFinchFish = true
+						end
+					end
 
-                --task.wait(2.3)
-		        task.wait(0.1)
-				if isCaughtRarestFishWhenStartedAutoFish == true then --EXPERIMENTAL
-                    task.wait(20) --AFTER CAUGHT RAREST FISH, WAIT 20 SECONDS
-                    isCaughtRarestFishWhenStartedAutoFish = false
-                end
-                --RodReel:Play()
-                repeat
-                    finishRemote:FireServer()
-                    task.wait(0.1)
-                until isCaughtFishWhenStartedAutoFish == true
-                isCaughtFishWhenStartedAutoFish = false
+					--task.wait(2.3)
+					task.wait(0.1)
+					--RodReel:Play()
+					repeat
+						finishRemote:FireServer()
+						task.wait(0.1)
+					until isCaughtFishWhenStartedAutoFish == true
+					isCaughtFishWhenStartedAutoFish = false
 
-                if isCaughtRarestFishWhenStartedAutoFish == true then --EXPERIMENTAL
-                    task.wait(20) --AFTER CAUGHT RAREST FISH, WAIT 20 SECONDS
-                    isCaughtRarestFishWhenStartedAutoFish = false
-                end
-                --RodIdle:Stop()
-                --finishRemote:FireServer()
-            end)
+					--RodIdle:Stop()
+					--finishRemote:FireServer()
+				end)
+				return "done"
+			end
+			local pruningFishing = await(coroutine.create(RunFishing))
+			--end)
             --task.wait(1.4)
             task.wait(0.5)
         end
