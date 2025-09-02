@@ -740,6 +740,9 @@ function StartAutoFish() --NEW FUNCTIONS V4...
                     task.wait(0.1)
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
+				if mGRresult2.SelectedRarity <= 0.00005 then
+					task.wait(20)
+				end
                 --RodIdle:Stop()
                 --finishRemote:FireServer()
             end)
