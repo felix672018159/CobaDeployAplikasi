@@ -584,6 +584,7 @@ function StartAutoFishOldV2() --NEW FUNCTIONS V2...
 end
 
 local isCaughtFishWhenStartedAutoFish = false
+local isCaughtRarestFishWhenStartedAutoFish = false --CHECK IF GOT MITHIC FISH AND UPPER
 local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_net@0.2.0"].net["RE/FishCaught"]
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
     isCaughtFishWhenStartedAutoFish = true
@@ -627,19 +628,25 @@ function StartAutoFish() --NEW FUNCTIONS V3...
 --		print(type(mGRresult2))
 --		print(mGRresult2)
 --		print(getrawmetatable(mGRresult2))
-		if mGRresult2.SelectedRarity <= 0.001 then
-			print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
-			printTable(mGRresult2)
-		end
+                if mGRresult2.SelectedRarity <= 0.0001 then --RARITY MITHIC FISH DETECTIONS 
+                    print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
+                    isCaughtRarestFishWhenStartedAutoFish = true
+                    --printTable(mGRresult2)
+                end
 
                 --task.wait(2.3)
-		task.wait(0.1)
+		        task.wait(0.1)
                 --RodReel:Play()
                 repeat
                     finishRemote:FireServer()
                     task.wait(0.1)
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
+
+                if isCaughtRarestFishWhenStartedAutoFish == true then --EXPERIMENTAL
+                    task.wait(20) --AFTER CAUGHT RAREST FISH, WAIT 20 SECONDS
+                    isCaughtRarestFishWhenStartedAutoFish = false
+                end
                 --RodIdle:Stop()
                 --finishRemote:FireServer()
             end)
