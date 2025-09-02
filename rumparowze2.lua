@@ -583,24 +583,7 @@ function StartAutoFishOldV2() --NEW FUNCTIONS V2...
     end)
 end
 
-local isCaughtFishWhenStartedAutoFish = false
-local isCaughtRarestFishWhenStartedAutoFish = false --CHECK IF GOT MITHIC FISH AND UPPER
-local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_net@0.2.0"].net["RE/FishCaught"]
-RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
-    isCaughtFishWhenStartedAutoFish = true
-end)
-function printTable(tbl, indent)
-	indent = indent or ""
-	for key, value in pairs(tbl) do
-		if typeof(value) == "table" then
-			print(indent .. tostring(key) .. ":")
-			printTable(value, indent .. "  ")
-		else
-			print(indent .. tostring(key) .. ": " .. tostring(value))
-		end
-	end
-end
-function StartAutoFish() --NEW FUNCTIONS V3...
+function StartAutoFishOldV3() --NEW FUNCTIONS V3...
     print("USING FISH V3")
     autofish = true
     task.spawn(function()
@@ -659,6 +642,92 @@ function StartAutoFish() --NEW FUNCTIONS V3...
         end
     end)
 end
+
+local isCaughtFishWhenStartedAutoFish = false
+local isCaughtRarestFishWhenStartedAutoFish = false --CHECK IF GOT MITHIC FISH AND UPPER
+local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_net@0.2.0"].net["RE/FishCaught"]
+RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
+    isCaughtFishWhenStartedAutoFish = true
+end)
+function printTable(tbl, indent)
+	indent = indent or ""
+	for key, value in pairs(tbl) do
+		if typeof(value) == "table" then
+			print(indent .. tostring(key) .. ":")
+			printTable(value, indent .. "  ")
+		else
+			print(indent .. tostring(key) .. ": " .. tostring(value))
+		end
+	end
+end
+function StartAutoFish() --NEW FUNCTIONS V4...
+    print("USING FISH V4")
+    autofish = true
+    task.spawn(function()
+        while autofish do
+            pcall(function()
+                local args = {1}
+                local equipRemote = net:WaitForChild("RE/EquipToolFromHotbar")
+                equipRemote:FireServer(unpack(args))
+                task.wait(0.1)
+
+                local timestamp = perfectCast and 9999999999 or (tick() + math.random())
+                --RodShake:Play()
+
+                local chargeRemote = ReplicatedStorage
+                    .Packages._Index["sleitnick_net@0.2.0"].net["RF/ChargeFishingRod"]
+                chargeRemote:InvokeServer(workspace:GetServerTimeNow())
+                task.wait(0.1)
+
+                local timestamp = workspace:GetServerTimeNow()
+                rodRemote:InvokeServer(timestamp)
+
+                -- local x, y = -1.238, 0.969
+                -- if not perfectCast then
+                --     x = math.random(-1000, 1000) / 1000
+                --     y = math.random(0, 1000) / 1000
+                -- end
+
+                local baseX, baseY = -0.7499996423721313, 1
+                local x, y
+                if perfectCast then
+                    x = baseX + (math.random(-500, 500) / 10000000)
+                    y = baseY + (math.random(-500, 500) / 10000000)
+                else
+                    x = math.random(-1000, 1000) / 1000
+                    y = math.random(0, 1000) / 1000
+                end
+
+
+                local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
+
+--		print(type(mGRresult1))
+--		print(mGRresult1)
+--		print(type(mGRresult2))
+--		print(mGRresult2)
+--		print(getrawmetatable(mGRresult2))
+		if mGRresult2.SelectedRarity <= 0.001 then
+			print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
+			printTable(mGRresult2)
+		end
+
+                --task.wait(2.3)
+		task.wait(0.1)
+                --RodReel:Play()
+                repeat
+                    finishRemote:FireServer()
+                    task.wait(0.1)
+                until isCaughtFishWhenStartedAutoFish == true
+                isCaughtFishWhenStartedAutoFish = false
+                --RodIdle:Stop()
+                --finishRemote:FireServer()
+            end)
+            --task.wait(1.4)
+            task.wait(0.5)
+        end
+    end)
+end
+
 
 function StopAutoFish()
     autofish = false
