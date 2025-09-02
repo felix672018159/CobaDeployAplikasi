@@ -636,6 +636,10 @@ function StartAutoFish() --NEW FUNCTIONS V3...
 
                 --task.wait(2.3)
 		        task.wait(0.1)
+				if isCaughtRarestFishWhenStartedAutoFish == true then --EXPERIMENTAL
+                    task.wait(20) --AFTER CAUGHT RAREST FISH, WAIT 20 SECONDS
+                    isCaughtRarestFishWhenStartedAutoFish = false
+                end
                 --RodReel:Play()
                 repeat
                     finishRemote:FireServer()
