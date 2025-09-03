@@ -696,7 +696,17 @@ end
 --    end
 --end)
 
-
+function printTable(tbl, indent)
+	indent = indent or ""
+	for key, value in pairs(tbl) do
+		if typeof(value) == "table" then
+			print(indent .. tostring(key) .. ":")
+			printTable(value, indent .. "  ")
+		else
+			print(indent .. tostring(key) .. ": " .. tostring(value))
+		end
+	end
+end
 local isCaughtFishWhenStartedAutoFish = false
 local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["sleitnick_net@0.2.0"].net["RE/FishCaught"]
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
@@ -745,10 +755,10 @@ function StartAutoFishV2()
                 isCaughtFishWhenStartedAutoFish = false
 
                 if mGRresult2.SelectedRarity <= 0.00003 then
-		              	print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
-			              printTable(mGRresult2)
-                    task.wait(10)
-		            end
+					print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
+					printTable(mGRresult2)
+					task.wait(10)
+				end
 
                 task.wait(customDelayV2)
                 fishingActiveV2 = false
