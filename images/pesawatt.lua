@@ -1239,7 +1239,7 @@ local function startAutoFarmLoop()
         
         while isAutoFarmRunning do
             if not isAutoFarmRunning then  
-                StopAutoFish()  
+                StopAutoFishV2()  
                 NotifyWarning("Auto Farm Stopped", "Auto Farm manually disabled. Auto Fish stopped.")  
                 break  
             end  
@@ -1283,7 +1283,7 @@ local AutoFarm = AutoFarmTab:Toggle({
 		if state then
 			startAutoFarmLoop()
 		else
-			StopAutoFish()
+			StopAutoFishV2()
 		end
 	end
 })
