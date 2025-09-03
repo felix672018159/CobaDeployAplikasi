@@ -1185,6 +1185,58 @@ AutoFarmTab:Toggle({
 	end
 })
 
+-------------------------------------------
+----- =======[ SETTINGS TAB ]
+-------------------------------------------
+
+
+local AntiAFKEnabled = true
+local AFKConnection = nil
+
+SettingsTab:Toggle({
+	Title = "Anti-AFK",
+	Value = true,
+	Callback = function(Value)
+		if not blockNotif then
+			blockNotif = true
+			return
+	  end
+		AntiAFKEnabled = Value
+		if AntiAFKEnabled then
+			if AFKConnection then
+				AFKConnection:Disconnect()
+			end
+
+			
+			
+			local VirtualUser = game:GetService("VirtualUser")
+
+			AFKConnection = LocalPlayer.Idled:Connect(function()
+				pcall(function()
+					VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+					task.wait(1)
+					VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+				end)
+			end)
+
+			if NotifySuccess then
+				NotifySuccess("Anti-AFK Activated", "You will now avoid being kicked.")
+			end
+
+		else
+			if AFKConnection then
+				AFKConnection:Disconnect()
+				AFKConnection = nil
+			end
+
+			if NotifySuccess then
+				NotifySuccess("Anti-AFK Deactivated", "You can now go idle again.")
+			end
+		end
+	end,
+})
+
+
 --|------------------------------------|
 --|--------- OH NOOOOHHHHHHH ----------|
 --|------------------------------------|
