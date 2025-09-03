@@ -649,27 +649,6 @@ local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["s
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
     isCaughtFishWhenStartedAutoFish = true
 end)
-local REReplicateTextEffect = ReplicatedStorage.Packages._Index["sleitnick_net@0.2.0"].net["RE/ReplicateTextEffect"]
-REReplicateTextEffect.OnClientEvent:Connect(function(data)
-    if autofish
-    and data
-    and data.TextData
-    and data.TextData.EffectType == "Exclaim" then
-
-        local myHead = Players.LocalPlayer.Character and Players.LocalPlayer.Character:FindFirstChild("Head")
-        if myHead and data.Container == myHead then
-            task.spawn(function()
-                for i = 1, 25 do
-                    task.wait(0.2)
-					if isCaughtFishWhenStartedAutoFish then break end
-                    finishRemote:FireServer()  
-                    --rconsoleclear()      
-                end
-            end)
-			--isCaughtFishWhenStartedAutoFish = true
-        end
-    end
-end)
 function printTable(tbl, indent)
 	indent = indent or ""
 	for key, value in pairs(tbl) do
@@ -740,9 +719,6 @@ function StartAutoFish() --NEW FUNCTIONS V4...
                     task.wait(0.1)
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
-				if mGRresult2.SelectedRarity <= 0.00005 then
-					task.wait(20)
-				end
                 --RodIdle:Stop()
                 --finishRemote:FireServer()
             end)
