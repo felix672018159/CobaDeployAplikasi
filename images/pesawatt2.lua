@@ -727,8 +727,9 @@ function StartAutoFishV2()
     updateDelayBasedOnRodV2(true)
     monitorFishThresholdV2()
     task.spawn(function()
-        local checkGotRarestFuckingFish = false
         while autofishV2 do
+            local targetTime = 0
+            local forceCloseTime = false
             pcall(function()
                 fishingActiveV2 = true
 
@@ -757,42 +758,41 @@ function StartAutoFishV2()
 
                 RodIdle:Play()
                 local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
-                
-				if mGRresult2.SelectedRarity <= 0.00003 then
-					print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
-					printTable(mGRresult2)
-                    checkGotRarestFuckingFish = true
-                    StopAutoFishV2()
-					task.wait(10)
-					break
-				end
-                task.wait(0.2)            
+        
+                task.wait(0.2)
+                targetTime = workspace:GetServerTimeNow() + 10
                 repeat
                   task.wait(0.4)
                   finishRemote:FireServer()
+                  if targetTime < workspace:GetServerTimeNow() then
+                    fishingActiveV2 = false
+                    delayInitializedV2 = false
+                    RodIdle:Stop()
+                    RodShake:Stop()
+                    RodReel:Stop()
+                    forceCloseTime = true
+                    isCaughtFishWhenStartedAutoFish = false
+                    break
+                  end
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
 
                 if mGRresult2.SelectedRarity <= 0.00003 then
 					print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
 					printTable(mGRresult2)
-                    checkGotRarestFuckingFish = true
-                    StopAutoFishV2()
 					task.wait(10)
 				end
 
-                --task.wait(customDelayV2)
+                task.wait(0.1)
                 fishingActiveV2 = false
             end)
-        end
-        if checkGotRarestFuckingFish then
-            StartAutoFishV2()
-            checkGotRarestFuckingFish = false
-            NotifySuccess("Rarest Fish Caught!", "You caught the rarest fish! Auto fishing stopped to prevent loss.")
+            if forceCloseTime then
+                fishingActiveV2 = true
+                delayInitializedV2 = true
+            end
         end
     end)
 end
-
 
 AutoFish:Input({
 	Title = "Bypass Delay",
