@@ -712,11 +712,22 @@ local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["s
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
     isCaughtFishWhenStartedAutoFish = true
 end)
+
+function StopAutoFishV2()
+    autofishV2 = false
+    fishingActiveV2 = false
+    delayInitializedV2 = false
+    RodIdle:Stop()
+    RodShake:Stop()
+    RodReel:Stop()
+end
+
 function StartAutoFishV2()
     autofishV2 = true
     updateDelayBasedOnRodV2(true)
     monitorFishThresholdV2()
     task.spawn(function()
+        local checkGotRarestFuckingFish = false
         while autofishV2 do
             pcall(function()
                 fishingActiveV2 = true
@@ -750,12 +761,6 @@ function StartAutoFishV2()
                 task.wait(0.2)            
                 repeat
                   task.wait(0.4)
-				  if mGRresult2.SelectedRarity <= 0.00003 then
-					task.wait(4)
-				  end
-				  if isCaughtFishWhenStartedAutoFish == true then
-					break
-				  end
                   finishRemote:FireServer()
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
@@ -763,24 +768,23 @@ function StartAutoFishV2()
                 if mGRresult2.SelectedRarity <= 0.00003 then
 					print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
 					printTable(mGRresult2)
+                    checkGotRarestFuckingFish = true
+                    StopAutoFishV2()
 					task.wait(10)
 				end
 
-                task.wait(customDelayV2)
+                --task.wait(customDelayV2)
                 fishingActiveV2 = false
             end)
+        end
+        if checkGotRarestFuckingFish then
+            StartAutoFishV2()
+            checkGotRarestFuckingFish = false
+            NotifySuccess("Rarest Fish Caught!", "You caught the rarest fish! Auto fishing stopped to prevent loss.")
         end
     end)
 end
 
-function StopAutoFishV2()
-    autofishV2 = false
-    fishingActiveV2 = false
-    delayInitializedV2 = false
-    RodIdle:Stop()
-    RodShake:Stop()
-    RodReel:Stop()
-end
 
 AutoFish:Input({
 	Title = "Bypass Delay",
