@@ -750,6 +750,12 @@ function StartAutoFishV2()
                 task.wait(0.2)            
                 repeat
                   task.wait(0.4)
+				  if mGRresult2.SelectedRarity <= 0.00003 then
+					task.wait(4)
+				  end
+				  if isCaughtFishWhenStartedAutoFish == true then
+					break
+				  end
                   finishRemote:FireServer()
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
