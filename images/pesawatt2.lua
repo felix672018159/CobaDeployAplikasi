@@ -764,6 +764,7 @@ function StartAutoFishV2()
                     checkGotRarestFuckingFish = true
                     StopAutoFishV2()
 					task.wait(10)
+					break
 				end
                 task.wait(0.2)            
                 repeat
