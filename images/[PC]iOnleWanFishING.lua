@@ -559,12 +559,24 @@ local RemoteCaughtFish = game:GetService("ReplicatedStorage").Packages._Index["s
 RemoteCaughtFish.OnClientEvent:Connect(function(idFish, data)
     isCaughtFishWhenStartedAutoFish = true
 end)
+
+function StopAutoFishV2()
+    autofishV2 = false
+    fishingActiveV2 = false
+    delayInitializedV2 = false
+    RodIdle:Stop()
+    RodShake:Stop()
+    RodReel:Stop()
+end
+
 function StartAutoFishV2()
     autofishV2 = true
     updateDelayBasedOnRodV2(true)
     monitorFishThresholdV2()
     task.spawn(function()
         while autofishV2 do
+            local targetTime = 0
+            local forceCloseTime = false
             pcall(function()
                 fishingActiveV2 = true
 
@@ -593,34 +605,40 @@ function StartAutoFishV2()
 
                 RodIdle:Play()
                 local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
-
-                task.wait(0.2)        
+        
+                task.wait(0.2)
+                targetTime = workspace:GetServerTimeNow() + 10
                 repeat
                   task.wait(0.4)
                   finishRemote:FireServer()
+                  if targetTime < workspace:GetServerTimeNow() then
+                    fishingActiveV2 = false
+                    delayInitializedV2 = false
+                    RodIdle:Stop()
+                    RodShake:Stop()
+                    RodReel:Stop()
+                    forceCloseTime = true
+                    isCaughtFishWhenStartedAutoFish = false
+                    break
+                  end
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
 
                 if mGRresult2.SelectedRarity <= 0.00003 then
-                    print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
-                    printTable(mGRresult2)
-                    task.wait(10)
-                end
+					print("[GOCHA]>>>>>> DAMN IT'S INSANE YOU GOT RAREST ONE BROH")
+					printTable(mGRresult2)
+					task.wait(10)
+				end
 
-                task.wait(customDelayV2)
+                task.wait(0.1)
                 fishingActiveV2 = false
             end)
+            if forceCloseTime then
+                fishingActiveV2 = true
+                delayInitializedV2 = true
+            end
         end
     end)
-end
-
-function StopAutoFishV2()
-    autofishV2 = false
-    fishingActiveV2 = false
-    delayInitializedV2 = false
-    RodIdle:Stop()
-    RodShake:Stop()
-    RodReel:Stop()
 end
 
 AutoFish:Input({
