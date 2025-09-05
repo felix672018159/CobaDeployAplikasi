@@ -619,6 +619,7 @@ function StartAutoFishV2()
                     RodReel:Stop()
                     forceCloseTime = true
                     isCaughtFishWhenStartedAutoFish = false
+					task.wait(10)
                     break
                   end
                 until isCaughtFishWhenStartedAutoFish == true
