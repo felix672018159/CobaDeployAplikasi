@@ -1384,8 +1384,6 @@ Utils:Dropdown({
 -------------------------------------------
 ----- =======[ SETTINGS TAB ]
 -------------------------------------------
-
-
 local AntiAFKEnabled = true
 local AFKConnection = nil
 
@@ -1393,18 +1391,15 @@ SettingsTab:Toggle({
 	Title = "Anti-AFK",
 	Value = true,
 	Callback = function(Value)
-		if not blockNotif then
-			blockNotif = true
-			return
-	  end
 		AntiAFKEnabled = Value
+
 		if AntiAFKEnabled then
 			if AFKConnection then
 				AFKConnection:Disconnect()
 			end
 
 			
-			
+			local LocalPlayer = Players.LocalPlayer
 			local VirtualUser = game:GetService("VirtualUser")
 
 			AFKConnection = LocalPlayer.Idled:Connect(function()
@@ -1431,6 +1426,7 @@ SettingsTab:Toggle({
 		end
 	end,
 })
+
 
 
 --|------------------------------------|
