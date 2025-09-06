@@ -575,7 +575,6 @@ function StartAutoFishV2()
     monitorFishThresholdV2()
     task.spawn(function()
         while autofishV2 do
-            local targetTime = 0
             local forceCloseTime = false
             pcall(function()
                 fishingActiveV2 = true
@@ -607,21 +606,23 @@ function StartAutoFishV2()
                 local mGRresult1, mGRresult2 = miniGameRemote:InvokeServer(x, y)
         
                 task.wait(0.2)
-                targetTime = workspace:GetServerTimeNow() + 10
+                local targetTime = workspace:GetServerTimeNow() + 10
                 repeat
-                  task.wait(0.4)
-                  finishRemote:FireServer()
-                  if targetTime < workspace:GetServerTimeNow() then
-                    fishingActiveV2 = false
-                    delayInitializedV2 = false
-                    RodIdle:Stop()
-                    RodShake:Stop()
-                    RodReel:Stop()
-                    forceCloseTime = true
-                    isCaughtFishWhenStartedAutoFish = false
-					task.wait(5)
-                    break
-                  end
+					do
+	                  task.wait(0.4)
+	                  finishRemote:FireServer()
+	                  if targetTime < workspace:GetServerTimeNow() then
+	                    fishingActiveV2 = false
+	                    delayInitializedV2 = false
+	                    RodIdle:Stop()
+	                    RodShake:Stop()
+	                    RodReel:Stop()
+	                    forceCloseTime = true
+	                    isCaughtFishWhenStartedAutoFish = true
+						task.wait(5)
+	                    break
+	                  end
+					end
                 until isCaughtFishWhenStartedAutoFish == true
                 isCaughtFishWhenStartedAutoFish = false
 
@@ -1175,8 +1176,10 @@ local AutoFarm = AutoFarmTab:Toggle({
 	Callback = function(state)
 		isAutoFarmRunning = state
 		if state then
+			isAutoFarmRunning = true
 			startAutoFarmLoop()
 		else
+			isAutoFarmRunning = false
 			StopAutoFishV2()
 		end
 	end
