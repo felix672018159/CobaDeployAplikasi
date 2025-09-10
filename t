@@ -215,6 +215,34 @@ AutoTrade:Toggle({
 })
 
 
+local RFAwaitTradeResponse = ReplicatedStorage.Packages._Index["sleitnick_net@0.2.0"].net["RF/AwaitTradeResponse"]
+
+local autoAcceptTrade = false
+
+RFAwaitTradeResponse.OnClientInvoke = function(fromPlayer, timeNow)
+    if autoAcceptTrade then
+        return true
+    else
+        return nil
+    end
+end
+
+AutoTrade:Toggle({
+    Title = "Auto Accept Trade",
+    Desc = "Skip Time Trade",
+    Value = false,
+    Callback = function(state)
+        autoAcceptTrade = state
+        if autoAcceptTrade then
+            autoAcceptTrade = true
+            NotifySuccess("Trade", "Auto Accept Trade Enabled")
+        else
+            autoAcceptTrade = false
+            NotifyWarning("Trade", "Auto Accept Trade Disabled")
+        end
+    end
+})
+
 local mt = getrawmetatable(game)
 local oldNamecall = mt.__namecall
 
