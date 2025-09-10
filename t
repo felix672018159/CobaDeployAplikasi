@@ -208,6 +208,7 @@ AutoTrade:Toggle({
          StartAutoTrade()
          NotifySuccess("Auto Trade Mode", "Trade Mode is active. Start Auto trading..")
       else
+		 blockAutoTrade = false
          StopAutoTrade()
          NotifySuccess("Auto Trade Mode", "Trade Mode Disabled.")
       end
