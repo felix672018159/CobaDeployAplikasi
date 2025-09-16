@@ -2559,8 +2559,9 @@ SettingsTab:Button({
 
 task.wait(2)
 --selectedIsland = "Crater Islands"
+selectedIsland = "Sisyphus Statue"
 --selectedIsland = "Tropical Grove"
-selectedIsland = "Vulcano"
+--selectedIsland = "Vulcano"
 --selectedIsland = "Coral Reefs"
 --selectedIsland = "Winter Fest"
 --selectedIsland = "Weather Machine"
