@@ -290,7 +290,7 @@ RemoteEventTextNotifications.OnClientEvent:Connect(function(args1, args2, args3,
             if string.find(args1.Text, "Send trade request!") then
                 -- print("")
             elseif string.find(args1.Text, "Trade was declined!") or string.find(args1.Text, "Trade was decline") or string.find(args1.Text, "You are too far away!") or string.find(args1.Text, "One or more people are already in a trade!") or string.find(args1.Text, "Sending trades too fast")  then
-                task.wait(4.6)
+                task.wait(1.6)
                 blockAutoTrade = false
                 updateTradeInformations()
                 -- print("")
