@@ -721,7 +721,7 @@ function StopAutoFishV2()
     RodShake:Stop()
     RodReel:Stop()
 end
-
+print("Iam black mamba")
 function StartAutoFishV2()
     autofishV2 = true
     updateDelayBasedOnRodV2(true)
@@ -795,7 +795,7 @@ function StartAutoFishV2()
         end
     end)
 end
-
+print("Your black mamba")
 AutoFish:Input({
 	Title = "Bypass Delay",
 	Desc = "Use 1 for rod above a Ares",
